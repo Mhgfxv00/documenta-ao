@@ -1,0 +1,121 @@
+
+--- comparaçao tradeoff de ter feito o trabalho q teve no projeto em comparaçao de so importar como o showdon faz
+
+
+Resumo: o caminho que seguimos custou bem mais, mas era o único compatível com um jogo Unity de mundo aberto. Copiar o Showdown seria mais rápido e mais fiel nas regras de batalha, mas teria saído caro em outras partes do projeto.
+
+O que fizemos
+Usamos o Showdown só como fonte de verdade dos dados e do comportamento. A batalha foi reescrita em C#, com Scriptable Objects, peças genéricas (regras, gatilhos, condições, efeitos) e ferramentas de Editor que geram os assets em lote.
+
+As duas alternativas de "importar"
+A. Rodar o simulador do Showdown (Node) como motor	B. Portar o código do Showdown para C#	C. O que fizemos
+Fidelidade às regras	Máxima, e atualiza junto com o Showdown	Alta, mas fica congelada no dia do port	Boa, mas é aproximação em casos de borda
+Esforço inicial	Baixo	Alto (milhares de callbacks)	Muito alto
+Manutenção	Seguir o upstream é fácil	Cada atualização é um port manual	Cada novidade é trabalho nosso
+Integração com Unity	Ruim: processo externo ou JS embutido, build e plataformas (mobile/console) complicados	Boa	Nativa
+Dados no Inspector, editáveis por humano	Não: o conteúdo mora em TypeScript	Parcial	Sim, é o ponto forte
+Regras próprias do jogo	Brigam com o motor	Possível, mas o código é denso	Natural
+IA, Nuzlocke, rede, save, mundo	Todos precisam de ponte para o motor	Menos ponte	Tudo no mesmo modelo
+Testabilidade	O Showdown já é muito testado	Herda o comportamento, não os testes	Temos a nossa bateria, mas o SistemaBatalha depende de Play Mode
+Onde o nosso caminho perdeu
+Tempo: o port direto (B) ou o motor pronto (A) teria dado a batalha completa em uma fração disso.
+Divergência: cada golpe ou habilidade montada com peças genéricas pode diferir do Showdown em um caso raro. A auditoria mostrou que isso acontece (G-Max, Ogerpon e o troca de golpe do Zacian ainda faltam).
+Manutenção: quando sair geração nova, o trabalho recomeça.
+Onde ganhou
+O jogo é seu: o designer cria um golpe novo, uma regra de arena ou um item sem escrever código.
+Save, rede, IA, mundo e a batalha falam a mesma língua.
+Um jogo com regras próprias (o que o projeto quer ser) não fica preso à lógica de um simulador competitivo.
+Não há dependência de runtime externo.
+Recomendação
+O híbrido que acabamos fazendo foi o certo para este projeto. Faltou só uma coisa para fechar o risco da fidelidade: um teste de conformidade. Isso é rodar o Showdown offline sobre um conjunto de cenários, guardar os resultados esperados e comparar com o nosso motor. Assim a divergência vira número em vez de suspeita. Isso aproveitaria o melhor da opção A sem pagar o custo de integração.
+
+Se o objetivo fosse só um simulador competitivo, a opção A venceria.
+
+Quer que eu desenhe esse teste de conformidade?
+
+
+
+
+
+--- tem/tinha jeito melhor de ter feito isso?
+
+
+Sim, em alguns pontos. A arquitetura (dados em assets e peças genéricas) eu manteria. O que eu mudaria é o processo.
+
+O que eu faria diferente
+Teste de conformidade antes do conteúdo. Foi o maior erro de ordem. Rodar o Showdown offline sobre cenários e guardar os resultados esperados teria dado uma medida objetiva de fidelidade desde o início. Sem ele, fomos descobrindo divergências por auditoria manual e por bugs, como o Meganiumite apagado e as evoluções perdidas.
+
+Gerar tudo por pipeline de dados, não por levas. A gente acabou fazendo isso, mas aos poucos: tabela do Showdown → perl → ferramenta de Editor, em 16 levas. O melhor era um importador único e idempotente, que lê o Showdown de uma versão fixa e produz todos os assets, com git diff mostrando o que mudou. Atualizar de geração viraria "rodar de novo". Hoje temos isso em pedaços.
+
+Cobrir primeiro os mecanismos que o Showdown usa, depois o conteúdo. Fomos achando peças que faltavam no meio das levas (ally targeting, ICuraDeMochila, RestricaoDeHabilidade, condição algumGolpeSemPp). Um levantamento inicial de todos os "tipos de callback" do Showdown (onModifyDamage, onResidual etc.) mostraria quais peças genéricas faltavam antes de gerar centenas de assets.
+
+Testar o SistemaBatalha por simulação, não só Play Mode. A nota da memória diz que refactor nele exige Play Mode real. Um modo de batalha sem tela, com semente fixa, rodando em EditMode, teria tornado tudo mais rápido de validar e permitido o teste de conformidade do item 1.
+
+Perguntar as decisões de regra no começo. Várias pendências (apagar o não oficial, quais mecânicas ligar, renomear formas) só apareceram no fim. Uma lista de decisões pedida logo no início evitaria retrabalho.
+
+O que eu manteria
+Dados em Scriptable Objects e regras compostas por peças: é o que torna o jogo editável por humano.
+Showdown como fonte de verdade fixada num commit.
+Ferramentas idempotentes, com duas passadas (criar e preencher).
+Commits por pathspec, para não pisar em outra sessão.
+Resumo
+O trabalho em si foi razoável. O custo extra veio de descobrir a medida de fidelidade e as peças faltantes tarde demais. Com o item 1 e o item 4, o mesmo projeto teria saído mais seguro e provavelmente mais rápido.
+
+
+
+--- o q falta para multiplayer em rede?
+
+
+Hoje não existe rede nenhuma. Não há pacote de netcode no projeto. O que existe são as costuras da batalha (ação como dado, árbitro, registro, foto, sorteio semeado), todas com teste. O plano completo está em REDE_E_MULTIPLAYER.md, conferido no código em 09/10. O alvo declarado é 2 a 15–18 jogadores num mundo grande.
+
+Para a primeira partida de batalha em rede
+Escolher o pacote de transporte (Netcode for GameObjects, Mirror, Photon…). Sem isso nada começa, e a escolha é sua.
+Árbitro remoto. O outro lado do fio: manda a ação ao dono da partida e responde "pendente" até ele confirmar. A interface já aceita a espera.
+Repor a foto. Hoje o jogo só tira a foto do estado da batalha, não reconstrói uma batalha a partir dela. Sem isso não dá para retomar uma partida.
+A foto precisa guardar mais. Faltam estágios de atributo, golpes de vários turnos, forma assumida (Mega), tipo assumido, habilidade copiada e o histórico de golpes revelados. Sem isso a batalha retomada fica parecida com a original, mas não igual.
+O registro precisa carregar estado, não só narração. O tipo de acontecimento de atualizar status está declarado e nunca escrito, então um cliente remoto não consegue desenhar a barra de HP.
+O estado inicial precisa viajar junto. A semente reproduz as rolagens, não quem entrou em campo nem os IVs e a natureza.
+Enviar só o que mudou em vez da foto inteira, para sincronizar turno a turno.
+Prazo para cliente remoto que cai. Falta definir a regra (ação padrão ou derrota). O prazo que existe cobre só a tela local de aprender golpe.
+Um gancho de apresentação nos efeitos, para a regra não vazar para o lado do desenho.
+Escrever o que sincroniza antes do primeiro NetworkBehaviour.
+Para jogar junto no mundo
+Estado por jogador. São 15 usos de FindAnyObjectByType<DadosJogador>() espalhados pelo código.
+Singletons de cena. O GerenciadorEstados decide o controle de todos, e o ObjetoPersistente guarda uma instância por chave.
+Troca de cena. O SistemaTransicao usa LoadSceneMode.Single em torno de um jogador só.
+Interest management (cada cliente receber só o que está perto). Com 18 jogadores deixa de ser opcional.
+Dois riscos fora da lista
+Determinismo entre máquinas. O dano usa float em partes, então PvP entre plataformas diferentes só é garantido se isso for revisto.
+Mecânicas novas. Dynamax, Tera e Z entraram como modificador da ação de golpe, o que cabe no modelo. O que falta é a foto guardar o estado delas: Dynamax ativo e turnos restantes, tipo Tera, e se o lado já usou a mecânica.
+Por onde começar
+Decidir o pacote.
+Fazer a foto completa (estado de luta e mecânicas) com o teste de reconstrução.
+Fazer o árbitro remoto com o prazo para quem cai.
+Esses três dão uma partida 1v1 em rede, e o mundo compartilhado vem depois. Medir desempenho de build também ainda não foi feito. Quer que eu comece pela foto completa?
+
+
+
+--- como se escolhe o pacote de transporte, de netcode? documente da resposta ao pedido de comparaçao tradeoff em diante.
+
+
+Como se escolhe o pacote de netcode
+O método está no documento novo ESCOLHA_DO_PACOTE_DE_REDE.md, em cinco passos:
+
+Exigências do projeto. A batalha é por turnos e já tem árbitro, então quase não pesa na escolha. O que pesa é o mundo: interest management (cada cliente receber só o que está perto), cenas aditivas e autoridade no servidor.
+Perguntas que só o grupo responde. Quem hospeda, quantos jogadores, quais plataformas, qual orçamento mensal e se o lançamento é comercial.
+Candidatos.
+Netcode for Entities está fora, porque exige reescrever o jogo em ECS.
+Netcode for GameObjects precisa ser a versão 2.x, porque a 1.x não é suportada no Unity 6000.3 em diante.
+Os outros são Mirror (MIT), Fish-Net (núcleo gratuito, Pro pago) e Photon Fusion (grátis até 100 jogadores simultâneos, depois pago e preso ao fornecedor).
+A opção de transporte próprio fica como último recurso.
+Critérios com peso. Servidor-autoritativo com o IArbitroDeBatalha, relevância por cena, cenas aditivas e custo pesam mais. Reconexão, manutenção, curva de aprendizado e depuração pesam menos.
+Spike de 2 a 3 dias, idêntico nos dois finalistas. Dois clientes se movendo, um terceiro em outra cena sem ver os dois, uma batalha 1v1 pelo ArbitroRemoto e a queda de um cliente no meio. O código do spike é descartado.
+A minha inclinação é Netcode for GameObjects 2.x com Relay como primeiro finalista e Fish-Net como segundo. Isso muda se o grupo quiser salas de 18 ou mais, ou orçamento zero. A decisão é do grupo.
+
+Os preços e as afirmações sobre cenas aditivas e interest management de cada pacote não foram conferidos nesta data. Estão marcados como "a conferir" no documento, e o spike existe para tirar essas dúvidas.
+
+O resto, a partir da comparação do trade-off
+Showdown, importar o motor ou reescrever: seção nova em COMPARATIVOS_EXTERNOS.md §6, com a tabela e as lições do que faríamos diferente. Há também uma entrada no histórico de sessões.
+Duas pendências novas: D13 (teste de conformidade com o Showdown) e D14 (batalha sem tela em EditMode) em PENDENCIAS.md.
+Multiplayer: a lista do que falta já estava em REDE_E_MULTIPLAYER.md. Acrescentei lá que a foto da batalha também precisa guardar o estado de Dynamax, Tera, Z e Mega, e liguei R1 ao documento novo.
+Índice e decisão P13: atualizei o README do Docs/ e o DECISOES.md.

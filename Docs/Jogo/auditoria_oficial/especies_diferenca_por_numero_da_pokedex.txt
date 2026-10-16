@@ -1,0 +1,100 @@
+#3  OFICIAL: Venusaur, Venusaur-Mega, Venusaur-Gmax
+      PROJETO: Venusaur, Mega Venusaur
+#6  OFICIAL: Charizard, Charizard-Mega-X, Charizard-Mega-Y, Charizard-Gmax
+      PROJETO: Charizard, Mega Charizard X, Mega Charizard Y
+#9  OFICIAL: Blastoise, Blastoise-Mega, Blastoise-Gmax
+      PROJETO: Blastoise, Mega Blastoise
+#12  OFICIAL: Butterfree, Butterfree-Gmax
+      PROJETO: Butterfree
+#19  OFICIAL: Rattata, Rattata-Alola
+      PROJETO: Rattata
+#20  OFICIAL: Raticate, Raticate-Alola, Raticate-Alola-Totem
+      PROJETO: Raticate, Raticate(Alola Totem)
+#25  OFICIAL: Pikachu, Pikachu-Cosplay, Pikachu-Rock-Star, Pikachu-Belle, Pikachu-Pop-Star, Pikachu-PhD, Pikachu-Libre, Pikachu-Original, Pikachu-Hoenn, Pikachu-Sinnoh, Pikachu-Unova, Pikachu-Kalos, Pikachu-Alola, Pikachu-Partner, Pikachu-Starter, Pikachu-Gmax, Pikachu-World
+      PROJETO: Pikachu, Pikachu(Kanto), Pikachu(Hoenn), Pikachu(Sinnoh), Pikachu(Unova), Pikachu(Kalos), Pikachu(Alola)
+#26  OFICIAL: Raichu, Raichu-Alola, Raichu-Mega-X, Raichu-Mega-Y
+      PROJETO: Raichu, Mega Raichu X, Mega Raichu Y
+#27  OFICIAL: Sandshrew, Sandshrew-Alola
+      PROJETO: Sandshrew
+#28  OFICIAL: Sandslash, Sandslash-Alola
+      PROJETO: Sandslash
+#37  OFICIAL: Vulpix, Vulpix-Alola
+      PROJETO: Vulpix
+#38  OFICIAL: Ninetales, Ninetales-Alola
+      PROJETO: Ninetales
+#50  OFICIAL: Diglett, Diglett-Alola
+      PROJETO: Diglett
+#51  OFICIAL: Dugtrio, Dugtrio-Alola
+      PROJETO: Dugtrio
+#52  OFICIAL: Meowth, Meowth-Alola, Meowth-Galar, Meowth-Gmax
+      PROJETO: Meowth, Meowth(Galar)
+#53  OFICIAL: Persian, Persian-Alola
+      PROJETO: Persian
+#68  OFICIAL: Machamp, Machamp-Gmax
+      PROJETO: Machamp
+#74  OFICIAL: Geodude, Geodude-Alola
+      PROJETO: Geodude
+#75  OFICIAL: Graveler, Graveler-Alola
+      PROJETO: Graveler
+#76  OFICIAL: Golem, Golem-Alola
+      PROJETO: Golem
+#88  OFICIAL: Grimer, Grimer-Alola
+      PROJETO: Grimer
+#89  OFICIAL: Muk, Muk-Alola
+      PROJETO: Muk
+#94  OFICIAL: Gengar, Gengar-Mega, Gengar-Gmax
+      PROJETO: Gengar, Mega Gengar
+#99  OFICIAL: Kingler, Kingler-Gmax
+      PROJETO: Kingler
+#103  OFICIAL: Exeggutor, Exeggutor-Alola
+      PROJETO: Exeggutor
+#105  OFICIAL: Marowak, Marowak-Alola, Marowak-Alola-Totem
+      PROJETO: Marowak, Marowak(Alola Totem)
+#131  OFICIAL: Lapras, Lapras-Gmax
+      PROJETO: Lapras
+#133  OFICIAL: Eevee, Eevee-Starter, Eevee-Gmax
+      PROJETO: Eevee
+#143  OFICIAL: Snorlax, Snorlax-Gmax
+      PROJETO: Snorlax
+#569  OFICIAL: Garbodor, Garbodor-Gmax
+      PROJETO: Garbodor
+#809  OFICIAL: Melmetal, Melmetal-Gmax
+      PROJETO: Melmetal
+#812  OFICIAL: Rillaboom, Rillaboom-Gmax
+      PROJETO: Rillaboom
+#815  OFICIAL: Cinderace, Cinderace-Gmax
+      PROJETO: Cinderace
+#818  OFICIAL: Inteleon, Inteleon-Gmax
+      PROJETO: Inteleon
+#823  OFICIAL: Corviknight, Corviknight-Gmax
+      PROJETO: Corviknight
+#826  OFICIAL: Orbeetle, Orbeetle-Gmax
+      PROJETO: Orbeetle
+#834  OFICIAL: Drednaw, Drednaw-Gmax
+      PROJETO: Drednaw
+#839  OFICIAL: Coalossal, Coalossal-Gmax
+      PROJETO: Coalossal
+#841  OFICIAL: Flapple, Flapple-Gmax
+      PROJETO: Flapple
+#842  OFICIAL: Appletun, Appletun-Gmax
+      PROJETO: Appletun
+#844  OFICIAL: Sandaconda, Sandaconda-Gmax
+      PROJETO: Sandaconda
+#849  OFICIAL: Toxtricity, Toxtricity-Low-Key, Toxtricity-Gmax, Toxtricity-Low-Key-Gmax
+      PROJETO: Toxtricity-Amped
+#851  OFICIAL: Centiskorch, Centiskorch-Gmax
+      PROJETO: Centiskorch
+#858  OFICIAL: Hatterene, Hatterene-Gmax
+      PROJETO: Hatterene
+#861  OFICIAL: Grimmsnarl, Grimmsnarl-Gmax
+      PROJETO: Grimmsnarl
+#869  OFICIAL: Alcremie, Alcremie-Gmax
+      PROJETO: Alcremie
+#879  OFICIAL: Copperajah, Copperajah-Gmax
+      PROJETO: Copperajah
+#884  OFICIAL: Duraludon, Duraludon-Gmax
+      PROJETO: Duraludon
+#925  OFICIAL: Maushold, Maushold-Four
+      PROJETO: Maushold-Family-Of-Four
+#1017  OFICIAL: Ogerpon, Ogerpon-Wellspring, Ogerpon-Hearthflame, Ogerpon-Cornerstone, Ogerpon-Teal-Tera, Ogerpon-Wellspring-Tera, Ogerpon-Hearthflame-Tera, Ogerpon-Cornerstone-Tera
+      PROJETO: Ogerpon
